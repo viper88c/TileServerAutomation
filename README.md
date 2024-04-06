@@ -1,53 +1,56 @@
+
 # Automated TileServer
 
-This tool automates the process of generating MBTiles from shapefiles, specifically designed for handling ZIP codes, counties, cities, and states data.
+This project provides a comprehensive solution for setting up and managing a TileServer with automated processes for handling shapefile conversions and tile serving using tileserver-gl-light and PM2.
 
-## Setup
+## Installation
 
-To set up the Automated TileServer, follow these steps:
+Clone the repository to your local machine:
 
-1. **Clone the repository:**
-   
-   ```bash
-   git clone https://github.com/yourrepository/AutomatedTileServer.git
-   cd AutomatedTileServer
-   ```
+```bash
+git clone https://github.com/viper88c/TileServerAutomation.git
+cd TileServerAutomation
+```
 
-2. **Run the setup script:**
+Run the setup script to install all necessary dependencies:
 
-   This script installs necessary dependencies like `jq`, `mapshaper`, and `tippecanoe`.
-
-   ```bash
-   chmod +x setup.sh
-   ./setup.sh
-   ```
+```bash
+./setup.sh
+```
 
 ## Usage
 
-1. **Prepare your data:**
+After installation, you can use the script to process shapefiles into MBTiles format:
 
-   Place your `.zip` files containing the shapefiles in a designated input directory.
+```bash
+./processzip.sh <input_directory_containing_zip>
+```
 
-2. **Execute the processing script:**
+This script will detect the type of geographic data (e.g., Zip Codes, Counties, Cities, States), process the shapefiles, and update the corresponding layers in `zips.mbtiles`.
 
-   Run the processing script with the input directory as an argument.
+### TileServer and PM2
 
-   ```bash
-   ./processzip.sh <input_directory_containing_zip>
-   ```
+The project uses tileserver-gl-light to serve tiles and PM2 for process management. To start the TileServer on port 3000:
 
-   This script will identify the type of shapefile (ZIP codes, counties, cities, or states), process them, and integrate them into an MBTiles file.
+```bash
+pm2 start "tileserver-gl-light -p 3000 zips.mbtiles" --name tileserver
+```
 
-## Features
+To check the status of the TileServer:
 
-- Automatically detects the type of geographical data in the shapefile.
-- Simplifies and optimizes the shapefiles for tile generation.
-- Updates an existing MBTiles file with new data or creates a new one if it doesn't exist.
+```bash
+pm2 status tileserver
+```
 
-## Requirements
+To stop the TileServer:
 
-- jq
-- mapshaper
-- tippecanoe
+```bash
+pm2 stop tileserver
+```
 
-Ensure these dependencies are installed and accessible in your PATH.
+## Additional Notes
+
+Ensure your shapefiles are placed in the specified input directory before running the processing script. The script will unzip, process, and integrate the shapefile data into the TileServer automatically.
+
+For more information on PM2 and tileserver-gl-light, refer to their respective documentation.
+
