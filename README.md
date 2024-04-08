@@ -23,17 +23,17 @@ Run the setup script to install all necessary dependencies:
 After installation, you can use the script to process shapefiles into MBTiles format:
 
 ```bash
-./processzip.sh <input_directory_containing_zip>
+./processtiles.sh <input_directory_containing_tile>
 ```
 
-This script will detect the type of geographic data (e.g., Zip Codes, Counties, Cities, States), process the shapefiles, and update the corresponding layers in `zips.mbtiles`.
+This script will detect the type of geographic data (e.g., Zip Codes, Counties, Cities, States), process the shapefiles, and update the corresponding layers in `tiles.mbtiles`.
 
 ### TileServer and PM2
 
 The project uses tileserver-gl-light to serve tiles and PM2 for process management. To start the TileServer on port 3000:
 
 ```bash
-pm2 start "tileserver-gl-light -p 3000 zips.mbtiles" --name tileserver
+pm2 start "tileserver-gl-light -p 3000 tiles.mbtiles" --name tileserver
 ```
 
 To check the status of the TileServer:
